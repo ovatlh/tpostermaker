@@ -94,6 +94,8 @@ function fnUpdateInputValues() {
   hojaMargin = sheetMarginDOM.value;
   resultWidth = resultWidthDOM.value;
   resultHeight = resultHeightDOM.value;
+
+  fnShowImgOnCanvas(inputFileDOM);
 }
 
 function fnCM2PX(cm) {
