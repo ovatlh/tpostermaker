@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>tPosterMaker</title>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="screen.dpi.detector.js"></script>
     <script src="dom-to-image.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <script src="index.js" defer></script>
     <link rel="stylesheet" href="index.css" />
@@ -24,11 +25,11 @@
           <h3>Configuracion de hoja:</h3>
 
           <label>Ancho (cm):
-            <input type="number" id="sheet-width" value="21.59" onchange="fnUpdateInputValues();"/>
+            <input type="number" id="sheet-width" value="22" onchange="fnUpdateInputValues();"/>
           </label>
 
           <label>Alto (cm):
-            <input type="number" id="sheet-height" value="27.94" onchange="fnUpdateInputValues();"/>
+            <input type="number" id="sheet-height" value="28" onchange="fnUpdateInputValues();"/>
           </label>
 
           <label>Margen (cm):
@@ -40,15 +41,15 @@
           <h3>Configuracion de resultado:</h3>
 
           <label>Ancho (cm):
-            <input type="number" id="result-width" value="60" onchange="fnUpdateInputValues();"/>
+            <input type="number" id="result-width" value="10" onchange="fnUpdateInputValues();"/>
           </label>
 
           <label>Alto (cm):
-            <input type="number" id="result-height" value="30" onchange="fnUpdateInputValues();"/>
+            <input type="number" id="result-height" value="8.31" onchange="fnUpdateInputValues();"/>
           </label>
         </div>
 
-        <button id="btn-download" onclick="fnDownload();">Descargar</button>
+        <button id="btn-download" onclick="fnDownloadPX();">Descargar</button>
       </div>
 
       <div class="preview" title="Vista previa">

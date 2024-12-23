@@ -25,13 +25,26 @@ let hojaHeightPX = 0;
 let hojaMarginPX = 0;
 let posterWidthPX = 0;
 let posterHeightPX = 0;
-let scaleX = 0;
-let scaleY = 0;
-let scale = 0;
-let scaledImgWidth = 0;
-let scaledImgHeight = 0;
-let hojasAncho = 0;
-let hojasAlto = 0;
+let scaleXPX = 0;
+let scaleYPX = 0;
+let scalePX = 0;
+let scaledImgWidthPX = 0;
+let scaledImgHeightPX = 0;
+let hojasAnchoPX = 0;
+let hojasAltoPX = 0;
+
+let fHojaWidth = 0;
+let fHojaHeight = 0;
+let fHojaMargin = 0;
+let fPosterWidth = 0;
+let fPosterHeight = 0;
+let fScaleX = 0;
+let fScaleY = 0;
+let fScale = 0;
+let fScaledImgWidth = 0;
+let fScaledImgHeight = 0;
+let fHojasAncho = 0;
+let fHojasAlto = 0;
 
 //Functions
 function fnFitCanvas() {
@@ -68,8 +81,10 @@ function fnShowImgOnCanvas(inputFile) {
 
     ctx.drawImage(img, previewOffsetX, previewOffsetY, previewWidth, previewHeight);
 
-    fnCalcDivisions();
-    fnCreateParts(img);
+    fnCalcDivisionsPX();
+    //fnCalcDivisions();
+    fnCreatePartsPX(img);
+    //fnCreateParts(img);
   }
 }
 
@@ -79,39 +94,58 @@ function fnUpdateInputValues() {
   hojaMargin = sheetMarginDOM.value;
   resultWidth = resultWidthDOM.value;
   resultHeight = resultHeightDOM.value;
-
-  fnShowImgOnCanvas(inputFileDOM);
 }
 
 function fnCM2PX(cm) {
   //96px por pulgada
   //2.54cm por pulgada
-  return cm * (96 / 2.54);
+  //return cm * (96 / 2.54);
+  // return cm * (Detector.dpi / 2.54);
+  return Detector.dpi * (cm / 2.54);
 }
 
-function fnCalcDivisions() {
+function fnCM2PXV2(cm) {
+  return cm * (Detector.dpi / 2.54);
+}
+
+function fnCalcDivisionsPX() {
   hojaWidthPX = fnCM2PX(hojaWidth - (hojaMargin * 2));
   hojaHeightPX = fnCM2PX(hojaHeight - (hojaMargin * 2));
   hojaMarginPX = fnCM2PX(hojaMargin);
   posterWidthPX = fnCM2PX(resultWidth);
   posterHeightPX = fnCM2PX(resultHeight);
-  scaleX = posterWidthPX / imgWidth;
-  scaleY = posterHeightPX / imgHeight;
-  scale = Math.min(scaleX, scaleY);
-  scaledImgWidth = imgWidth * scale;
-  scaledImgHeight = imgHeight * scale;
-  hojasAncho = Math.ceil(scaledImgWidth / hojaWidthPX);
-  hojasAlto = Math.ceil(scaledImgHeight / hojaHeightPX);
+  scaleXPX = posterWidthPX / imgWidth;
+  scaleYPX = posterHeightPX / imgHeight;
+  scalePX = Math.min(scaleXPX, scaleYPX);
+  scaledImgWidthPX = imgWidth * scalePX;
+  scaledImgHeightPX = imgHeight * scalePX;
+  hojasAnchoPX = Math.ceil(scaledImgWidthPX / hojaWidthPX);
+  hojasAltoPX = Math.ceil(scaledImgHeightPX / hojaHeightPX);
 }
 
-function fnCreateParts(img) {
+function fnCalcDivisions() {
+  fHojaWidth = hojaWidth;
+  fHojaHeight = hojaHeight;
+  fHojaMargin = hojaMargin;
+  fPosterWidth = resultWidth;
+  fPosterHeight = resultHeight;
+  fScaleX = fPosterWidth / imgWidth;
+  fScaleY = fPosterHeight / imgHeight;
+  fScale = Math.min(fScaleX, fScaleY);
+  fScaledImgWidth = imgWidth * fScaleX;
+  fScaledImgHeight = imgHeight * fScaleY;
+  fHojasAncho = Math.ceil(fScaledImgWidth / fHojaWidth);
+  fHojasAlto = Math.ceil(fScaledImgHeight / fHojaHeight);
+}
+
+function fnCreatePartsPX(img) {
   resultDOM.innerHTML = "";
 
   let hojaNum = 1;
-  let hojaTotal = hojasAlto * hojasAncho;
+  let hojaTotal = hojasAltoPX * hojasAnchoPX;
 
-  for (let y = 0; y < hojasAlto; y++) {
-    for (let x = 0; x < hojasAncho; x++) {
+  for (let y = 0; y < hojasAltoPX; y++) {
+    for (let x = 0; x < hojasAnchoPX; x++) {
       const startX = x * hojaWidthPX;
       const startY = y * hojaHeightPX;
 
@@ -143,10 +177,67 @@ function fnCreateParts(img) {
       tempCtx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
       tempCtx.drawImage(
         img, 
-        startX / scale,
-        startY / scale,
-        hojaWidthPX / scale,
-        hojaHeightPX / scale,
+        startX / scalePX,
+        startY / scalePX,
+        hojaWidthPX / scalePX,
+        hojaHeightPX / scalePX,
+        0,
+        0,
+        tempCanvas.width,
+        tempCanvas.height
+      );
+
+      tempHojaDiv.appendChild(tempCanvas);
+      tempHojaDiv.appendChild(tempHojaNum);
+      resultDOM.appendChild(tempHojaDiv);
+      hojaNum++;
+    }
+  }
+}
+
+function fnCreateParts(img) {
+  resultDOM.innerHTML = "";
+
+  let hojaNum = 1;
+  let hojaTotal = fHojasAlto * fHojasAncho;
+
+  for (let y = 0; y < fHojasAlto; y++) {
+    for (let x = 0; x < fHojasAncho; x++) {
+      const startX = x * fHojaWidth;
+      const startY = y * fHojaHeight;
+
+      const tempHojaDiv = document.createElement("div");
+      tempHojaDiv.style.width = `${fHojaWidth}cm`;
+      tempHojaDiv.style.height = `${fHojaHeight}cm`;
+      tempHojaDiv.style.position = "relative";
+      tempHojaDiv.style.display = "inline-block";
+      tempHojaDiv.classList.add("partN");
+
+      const tempHojaNum = document.createElement("p");
+      tempHojaNum.style.fontSize = "0.5cm";
+      tempHojaNum.style.textAlign = "right";
+      tempHojaNum.style.position = "absolute";
+      tempHojaNum.style.bottom = `${fHojaMargin / 2}cm`;
+      tempHojaNum.style.right = `${fHojaMargin / 2}cm`;
+      tempHojaNum.style.color = "black";
+      tempHojaNum.innerHTML = `(${hojaNum} / ${hojaTotal}):${x + 1} / ${y + 1}`;
+
+      const tempCanvas = document.createElement("canvas");
+      tempCanvas.width = fnCM2PXV2(fHojaWidth - (fHojaMargin * 2));
+      tempCanvas.height = fnCM2PXV2(fHojaHeight - (fHojaMargin * 2));
+      tempCanvas.style.position = "absolute";
+      tempCanvas.style.top = `${fHojaMargin}cm`;
+      tempCanvas.style.left = `${fHojaMargin}cm`;
+
+      const tempCtx = tempCanvas.getContext("2d");
+
+      tempCtx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
+      tempCtx.drawImage(
+        img,
+        startX / fScale,
+        startY / fScale,
+        fHojaWidth / fScale,
+        fHojaHeight / fScale,
         0,
         0,
         tempCanvas.width,
@@ -180,7 +271,7 @@ function fnPDFDownload() {
   }
 }
 
-function fnDownload() {
+function fnDownloadPX() {
   pdf = new window.jspdf.jsPDF({
     unit: "cm",
     format: [hojaWidth, hojaHeight],
@@ -214,11 +305,45 @@ function fnDownload() {
   }
 }
 
+function fnDownload() {
+  pdf = new window.jspdf.jsPDF({
+    unit: "cm",
+    format: [fHojaWidth, fHojaHeight],
+  });
+
+  totalPages = resultDOM.children.length;
+
+  for (let index = 0; index < totalPages; index++) {
+    const element = resultDOM.children[index];
+
+    domtoimage.toPng(element).then(function(dataUrl) {
+      const imgTemp = new Image();
+      imgTemp.src = dataUrl;
+
+      pdf.addImage(
+        imgTemp,
+        "PNG",
+        0,
+        0,
+        fHojaWidth,
+        fHojaHeight
+      );
+      totalPagesCompleted++;
+
+      if(totalPagesCompleted < totalPages) {
+        pdf.addPage();
+      }
+
+      fnPDFDownload();
+    });
+  }
+}
+
 //Start
 fnFitCanvas();
 fnUpdateInputValues();
 
 window.onresize = () => {
   fnFitCanvas();
-  fnShowImgOnCanvas(inputFileDOM);
+  fnUpdateInputValues();
 }
