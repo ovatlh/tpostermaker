@@ -1,0 +1,127 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* outline: 1px solid red; */
+}
+
+html {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+input {
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid gray;
+}
+
+input[type="file"] {
+  cursor: pointer;
+}
+input[type="file"]:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+button {
+  padding: 1em;
+  border: 1px solid gray;
+  cursor: pointer;
+}
+button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+button:active {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+label {
+  display: grid;
+  grid-auto-flow: row;
+  padding: 0.5em;
+  gap: 0.5em;
+  background-color: rgba(0, 0, 0, 0.02);
+  border: 1px solid gray;
+}
+label:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+main {
+  background-color: whitesmoke;
+  color: #1e1e1e;
+  display: grid;
+  width: 100%;
+  min-height: 100vh;
+  grid-template-areas: 
+    "controls preview"
+    "results results";
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 500px auto;
+  padding: 1em;
+  gap: 1em;
+}
+
+.panel {
+  display: grid;
+  grid-auto-flow: row;
+  align-self: center;
+  align-content: start;
+  gap: 1em;
+  grid-area: controls;
+}
+
+.panel .file-config {
+  display: grid;
+  grid-auto-flow: row;
+  gap: 1em;
+}
+
+.panel .sheet-config {
+  display: grid;
+  grid-auto-flow: row;
+  gap: 1em;
+  grid-template-areas:
+    "TITLE TITLE TITLE"
+    "I1 I2 I3";
+}
+
+.panel .sheet-config h3 {
+  grid-area: TITLE;
+}
+
+.panel .result-config {
+  display: grid;
+  grid-auto-flow: row;
+  gap: 1em;
+  grid-template-areas: 
+    "TITLE TITLE"
+    "I1 I2";
+}
+
+.panel .result-config h3 {
+  grid-area: TITLE;
+}
+
+.preview {
+  display: grid;
+  grid-area: preview;
+}
+
+.preview canvas {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.results {
+  grid-area: results;
+  /* display: grid; */
+  /* grid-auto-flow: column; */
+  /* gap: 1em; */
+}
+
+.results .partN {
+  background-color: white;
+  outline: 1px solid black;
+}
+
+.results .partN canvas {
+  outline: 0.2em dashed rgba(0, 0, 0, 0.1);
+}

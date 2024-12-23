@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tPosterMaker</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="dom-to-image.min.js"></script>
+
+    <script src="index.js" defer></script>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <main>
+      <div class="panel">
+        <div class="file-config">
+          <h3>Configuracion de imagen:</h3>
+
+          <input type="file" id="file" onchange="fnShowImgOnCanvas(this);" />
+        </div>
+
+        <div class="sheet-config">
+          <h3>Configuracion de hoja:</h3>
+
+          <label>Ancho (cm):
+            <input type="number" id="sheet-width" value="21.59" onchange="fnUpdateInputValues();"/>
+          </label>
+
+          <label>Alto (cm):
+            <input type="number" id="sheet-height" value="27.94" onchange="fnUpdateInputValues();"/>
+          </label>
+
+          <label>Margen (cm):
+            <input type="number" id="sheet-margin" value="1.27" onchange="fnUpdateInputValues();"/>
+          </label>
+        </div>
+
+        <div class="result-config">
+          <h3>Configuracion de resultado:</h3>
+
+          <label>Ancho (cm):
+            <input type="number" id="result-width" value="60" onchange="fnUpdateInputValues();"/>
+          </label>
+
+          <label>Alto (cm):
+            <input type="number" id="result-height" value="30" onchange="fnUpdateInputValues();"/>
+          </label>
+        </div>
+
+        <button id="btn-download" onclick="fnDownload();">Descargar</button>
+      </div>
+
+      <div class="preview" title="Vista previa">
+        <canvas id="cnv"></canvas>
+      </div>
+
+      <div class="results" id="results"></div>
+    </main>
+  </body>
+</html>
